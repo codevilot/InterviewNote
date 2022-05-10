@@ -1,37 +1,145 @@
-## Welcome to GitHub Pages
+# 디자인 패턴
+: [프로그램 설계시 발생한 문제점]을 [객체 상호 간의 상호관계]를 이용해 해결하는 하나의 [규약]
+<details>
+  <summary>
+싱글톤 패턴
+  </summary>
+  : [하나의 클래스]에 [하나의 인스턴스]만 가지는 패턴<br>
+  이용 : 보통 데이터베이스 연결 모듈에 많이 사용<br>
+  장점 : 인스턴스 생성 비용 감소<br>
+  단점 : 의존성 증가<br>
+  구체적으로 이야기하면, 싱글톤 패턴은 TDD(Test Driven Development)를 할 때 독립적이지 않아서, 테스트마다 독립적인 인스턴스를 만들기 어렵습니다.<br>
+  단점 해결 방법 : 의존성 주입(Dependency Injection)을 통해 의존성을 느슨하게 만들 수 있습니다.<br>
+  <br>
+  DI 장점 : 모듈들을 쉽게 교체할 수 있고, 테스팅하기 쉽고, 모듈간의 관계가 명확해집니다.<br>
+  DI 단점 : 클래스 수가 늘어나서 복잡성이 증가하고 런타임 패널티가 생긴다<br>
+  DI 규칙 : 상위 모듈은 하위 모듈의 어떠한 것도 가져오지 말아야하며, 둘 다 추상화에 의존해야하고 추상화는 세부 사항의 의존하지 않는다.<br>
+</details>
+<details>
+  <summary>
+팩토리 패턴    
+  </summary>
+  :상위클래스가 중요한 뼈대를 결정하고, 하위 클래스에서 객체 생성에 대한, 구체적인 내용을 결정하는 패턴.<br>
+  장점 : 정적 메서드를 쓰면, 클래스의 인스턴스 없이 호출이 가능하여, 메모리 절약을 할 수 있다.<br>
+         개별 인스턴스에 묶이지 않으며, 클래스 내의 함수를 정의할 수 있다.<br>
+</details>
+<details>
+  <summary>
+전략 패턴
+  </summary>
+  [객체의 행위를 바꾸고 싶은 경우], 직접 수정하지 않고, [캡슐화한 알고리즘]을  [컨텍스트 안에서] 바꿔주면서 상호 교체가 가능하게 만드는 패턴<br>
+  1) passport 전략 패턴<br>
+   1. 서비스 내의 회원 가입된 Local Stategy<br>
+   2. 페이스북, 네이버 기반 인증 OAuth 전략<br>
+</details>
+<details>
+  <summary>
+옵저버 패턴
+  </summary>
+    : 주체(관찰자, 옵저버)가 어떤 객체의 상태 변화를 감지<br>
+    : 이벤트 기반 시스템을 사용하여 MVC 패턴에도 사용된다<br>
+    자바스크립트에서의 옵저버 패턴 : 어떠한 대상의 기본적인 동작을 가로챌 수 있는 객체<br>
+  프록시 객체의 <br>  
+  get()는 [속성과 함수]에 대한 접근을 가로채고 <br>
+  has()는 in 연산자의 사용을 가로챕니다<br>
+  set()는 [속성]에 대한 접근을 가로챕니다<br>
+  <br>
+  Vue는 프록시 객체를 이용하여 옵저버 패턴을 구현하여, 자동으로 DOM 값 변경
+</details>
+<details>
+  <summary>
+프록시 패턴 with 프록시 서버
+  </summary>
+  객체에 접근하기 전 흐름을 가로채 대상 객체 앞단의 인터페이스 역활을 하는 패턴<br>
+  이는 프록시객체 뿐만 아니라 프록시 서버로도 활용됩니다.<br>
+  <br>
+  프록시 서버 : [클라이언트]가 [자신]을 통해 [네트워크 서비스]에 [간접 접속]을 하게 해주는 프로그램<br>
+  <br>
+  nginx는 비동기 이벤트 기반의 구조와 다수 연결을 처리하는 웹서버로, [Node.js] [서버 앞단]의 프록시 서버로 활용<br>
+  ngix - Node.js의 장점 : 사용되지 않아야 할 영역에 데이터가 덮어 씌워져서 주소, 값을 바꾸는 공격인 [버퍼 오버플로우] 예방<br>
+  익명 사용자의 직접적 서버 접근을 막고, 간접적으로 한 단계를 거침으로 보안 강화<br>
+  정적 자원을 gzip 압축하거나 메인 서버 앞단에서의 로깅을 할 수 있음(gzip은, 데이터 전송량을 줄이지만, 압축 해제후 CPU 오버헤드도 생긴다)<br>
+  <br>
+  CloudFlare는 어떠한 시스템의 콘텐츠 전달을 빠르게 할 수 있는 CDN 서비스<br>
+  CDN(Content Delivery Network) 인터넷에 접속하는 곳과 가까운 곳에서 콘텐츠를 캐싱 또는 배포하는 서버<br>
+  CloudFlare는 [의심스러운 트래픽], [사용자가 접속하는 것이 아닌 시스템을 통한 트래픽]을 자동으로 차단<br>
+  인증서 설치 없이 HTTPS를 <br>
+  프론트엔드 서버와 백엔드 서버가 통신할 때 CORS 에러를 해결하기 위해 프록시 서버 사용
+</details>
+<details>
+  <summary>
+이터레이터 패턴    
+  </summary>
+  이터레이터를 사용하여 컬렉션의 요소들에 접근하는 패턴<br>
+  예시 : set과 map은 다른 구조이지만, for a of b라는 이터레이터 프로토콜을 통해 순회 할 수 있다.
+</details>
+<details>
+  <summary>
+노출모듈 패턴
+  </summary>
+  즉시 실행 함수를 통해 private, public 같은 접근 제어자를 만드는 패턴<br>
+  자바 스크립트에는 존재하지 않기 때문에, 노출모듈 패턴을 통해 private와 public 접근 제어자를 구현<br>
+</details>
+<details>
+  <summary>
+MVC 패턴    
+  </summary>
+  Model, View, Control로 이루어진 디자인 패턴<br>
+  장점 : 재사용성과 확장성<br>
+  단점 : 어플리케이션이 복잡해질 수록 모델과 뷰의 관계가 복잡<br>
+  <br>
+  모델 : 어플리 케이션의 데이터, 어플리케이션의 데이터 <br>
+  뷰 : 사용자의 인터페이스 요소, inputbox, checkbox, textarea <br>
+  컨트롤러 : 하나 이상의 모델과 하나이상의 뷰를 잇는 다리로, 모델이나 뷰의 변경 통지를 받으면 해당요소에 전달<br>
+  <br>
+  MVC 패턴의 예시 : React<br>
+  특성 : immutable - state는 setState를 통해 수정가능 하다  
+</details>
+<details>
+  <summary>
+MVP 패턴    
+  </summary>
+  Model, View, Presenter<br>
+  뷰와 프레젠터는 일대일 관계이기 때문에 MVC 패턴보다 [더 강한 결합]을 지닌 디자인 패턴
+</details>
+<details>
+  <summary>
+MVVM 패턴    
+  </summary>
+  Model, View, View Model<br>
+  뷰모델은, 뷰를 더 추상화한 계층이며, <br>
+  뷰와 뷰모델 사이의 양방향 데이터 바인딩을 지원하여 <br>
+  UI를 별도 수정 없이 재사용할 수 있고, 단위 테스팅하기 쉽다는 장점이 있다.<br>
+  예시 Vue, 함수를 사용하지 않고 양방향 바인딩 가능 <br>
+  데이터 바인딩 :  화면의 데이터와, 웹 브라우저 메모리 데이터를 일치시키는 방법으로, 뷰모델을 하면 뷰가 
+</details>
+# 프로그래밍 패러다임<br>
+: 프로그래밍의 관점을 갖게 해주는 역활을 하는 개발 방법론<br>
 
-You can use the [editor on GitHub](https://github.com/codevilot/InterviewNote/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/codevilot/InterviewNote/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+![image](https://user-images.githubusercontent.com/18400730/167601313-9a481369-f1a5-4695-83df-97eacdb65576.png)
+<br>
+선언형 프로그래밍 : 무엇을 풀어내는가에 집중하는 패러다임<br>
+선언형 프로그래밍은 [순수 함수]들을 블록처럼 쌓아 [재사용성]을 높인 프로그래밍 패러다임<br>
+순수 함수 : 출력이 입력에만 의존하는 것을 의미(다른 전역 변수가 출력에 영향을 주면 안된다)<br>
+<br>
+객체지향 프로그래밍 : 데이터를 객체로 취급, 설계에 많은 시간이 소요되며, <br>
+처리속도가 다른 프로그래밍 패러다임에 비해 상대적으로 느리다.<br>
+객체 지향 프로그래밍의 특징 : 추상화, 캡슐화, 상속성, <br>
+추상화 : 여러 특징중 일부분의 특징을 뽑아내서 간추려 내는 것을 말함<br>
+캡슐화 : 객체의 속성과 매서드를 묶고 일부를 외부에 감추는 것 <br>
+상속성 : 상위의 클래스를 하위 클래스가 이어 받음<br>
+다형성 : 하나의 메서드나 클래스가 다양한 방법으로 동작, 예시 : 오버로딩, 오버라이딩 <br>
+<br>
+오버로딩 : 같은 이름을 가진 매서드를 여러개 두는 것 (매서드의 매개분수를 여러개 넣어서 다양하게 적용할 수 있다)<br> 
+오버라이딩 : 상위 클래스로부터 받은 매서드를 하위클래스에서 재정의하는 것, 런타임 중에 발생하는 동적 다형성<br>
+<br>
+객체 지향 설계의 원칙 SOLID 원칙<br>
+단일 책임 원칙 : 모든 클래스는 각각 하나의 책임만 가져야 한다.<br>
+개방-폐쇄 원칙 : 기존의 코드는 잘 변경하지 않으면서도 확장은 쉽게 할 수 있어야 합니다.<br>
+리스코프 치환 원칙 : [정확성을 깨뜨리지 않으면서], 하위 타입의 인스턴스를 바꿀 수 있어야 한다 <br>
+인터페이스 분리 원칙 : 구체적인 여러개의 인터페이스를 만들어야 한다<br>
+의존 역전 원칙 : 상위 계층은 하위 계층의 변화에 대한 구현으로부터 독립해야 한다 <br>
+<br>
+절차형 프로그래밍 : 실행속도가 빠르지만, 모듈화하기가 어렵고, 유지 보수성이 떨어진다.<br>
+<br>
+뭐가 좋냐가 있는건아니라, 상황에 맞춰서, 패러다임을 조합하는 것이 가장 좋다. 머신 러닝 파이프라인과 거래 로직이 있다면, 머신 러닝 파이프라인은 절차지향형 패러다임, 거래 관련 로직은 함수형프로그래밍으로 하는 것이 좋다<br>
