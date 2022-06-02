@@ -1,145 +1,274 @@
-# 디자인 패턴
-: [프로그램 설계시 발생한 문제점]을 [객체 상호 간의 상호관계]를 이용해 해결하는 하나의 [규약]
-<details>
-  <summary>
-싱글톤 패턴
-  </summary>
-  : [하나의 클래스]에 [하나의 인스턴스]만 가지는 패턴<br>
-  이용 : 보통 데이터베이스 연결 모듈에 많이 사용<br>
-  장점 : 인스턴스 생성 비용 감소<br>
-  단점 : 의존성 증가<br>
-  구체적으로 이야기하면, 싱글톤 패턴은 TDD(Test Driven Development)를 할 때 독립적이지 않아서, 테스트마다 독립적인 인스턴스를 만들기 어렵습니다.<br>
-  단점 해결 방법 : 의존성 주입(Dependency Injection)을 통해 의존성을 느슨하게 만들 수 있습니다.<br>
-  <br>
-  DI 장점 : 모듈들을 쉽게 교체할 수 있고, 테스팅하기 쉽고, 모듈간의 관계가 명확해집니다.<br>
-  DI 단점 : 클래스 수가 늘어나서 복잡성이 증가하고 런타임 패널티가 생긴다<br>
-  DI 규칙 : 상위 모듈은 하위 모듈의 어떠한 것도 가져오지 말아야하며, 둘 다 추상화에 의존해야하고 추상화는 세부 사항의 의존하지 않는다.<br>
-</details>
-<details>
-  <summary>
-팩토리 패턴    
-  </summary>
-  :상위클래스가 중요한 뼈대를 결정하고, 하위 클래스에서 객체 생성에 대한, 구체적인 내용을 결정하는 패턴.<br>
-  장점 : 정적 메서드를 쓰면, 클래스의 인스턴스 없이 호출이 가능하여, 메모리 절약을 할 수 있다.<br>
-         개별 인스턴스에 묶이지 않으며, 클래스 내의 함수를 정의할 수 있다.<br>
-</details>
-<details>
-  <summary>
-전략 패턴
-  </summary>
-  [객체의 행위를 바꾸고 싶은 경우], 직접 수정하지 않고, [캡슐화한 알고리즘]을  [컨텍스트 안에서] 바꿔주면서 상호 교체가 가능하게 만드는 패턴<br>
-  1) passport 전략 패턴<br>
-   1. 서비스 내의 회원 가입된 Local Stategy<br>
-   2. 페이스북, 네이버 기반 인증 OAuth 전략<br>
-</details>
-<details>
-  <summary>
-옵저버 패턴
-  </summary>
-    : 주체(관찰자, 옵저버)가 어떤 객체의 상태 변화를 감지<br>
-    : 이벤트 기반 시스템을 사용하여 MVC 패턴에도 사용된다<br>
-    자바스크립트에서의 옵저버 패턴 : 어떠한 대상의 기본적인 동작을 가로챌 수 있는 객체<br>
-  프록시 객체의 <br>  
-  get()는 [속성과 함수]에 대한 접근을 가로채고 <br>
-  has()는 in 연산자의 사용을 가로챕니다<br>
-  set()는 [속성]에 대한 접근을 가로챕니다<br>
-  <br>
-  Vue는 프록시 객체를 이용하여 옵저버 패턴을 구현하여, 자동으로 DOM 값 변경
-</details>
-<details>
-  <summary>
-프록시 패턴 with 프록시 서버
-  </summary>
-  객체에 접근하기 전 흐름을 가로채 대상 객체 앞단의 인터페이스 역활을 하는 패턴<br>
-  이는 프록시객체 뿐만 아니라 프록시 서버로도 활용됩니다.<br>
-  <br>
-  프록시 서버 : [클라이언트]가 [자신]을 통해 [네트워크 서비스]에 [간접 접속]을 하게 해주는 프로그램<br>
-  <br>
-  nginx는 비동기 이벤트 기반의 구조와 다수 연결을 처리하는 웹서버로, [Node.js] [서버 앞단]의 프록시 서버로 활용<br>
-  ngix - Node.js의 장점 : 사용되지 않아야 할 영역에 데이터가 덮어 씌워져서 주소, 값을 바꾸는 공격인 [버퍼 오버플로우] 예방<br>
-  익명 사용자의 직접적 서버 접근을 막고, 간접적으로 한 단계를 거침으로 보안 강화<br>
-  정적 자원을 gzip 압축하거나 메인 서버 앞단에서의 로깅을 할 수 있음(gzip은, 데이터 전송량을 줄이지만, 압축 해제후 CPU 오버헤드도 생긴다)<br>
-  <br>
-  CloudFlare는 어떠한 시스템의 콘텐츠 전달을 빠르게 할 수 있는 CDN 서비스<br>
-  CDN(Content Delivery Network) 인터넷에 접속하는 곳과 가까운 곳에서 콘텐츠를 캐싱 또는 배포하는 서버<br>
-  CloudFlare는 [의심스러운 트래픽], [사용자가 접속하는 것이 아닌 시스템을 통한 트래픽]을 자동으로 차단<br>
-  인증서 설치 없이 HTTPS를 <br>
-  프론트엔드 서버와 백엔드 서버가 통신할 때 CORS 에러를 해결하기 위해 프록시 서버 사용
-</details>
-<details>
-  <summary>
-이터레이터 패턴    
-  </summary>
-  이터레이터를 사용하여 컬렉션의 요소들에 접근하는 패턴<br>
-  예시 : set과 map은 다른 구조이지만, for a of b라는 이터레이터 프로토콜을 통해 순회 할 수 있다.
-</details>
-<details>
-  <summary>
-노출모듈 패턴
-  </summary>
-  즉시 실행 함수를 통해 private, public 같은 접근 제어자를 만드는 패턴<br>
-  자바 스크립트에는 존재하지 않기 때문에, 노출모듈 패턴을 통해 private와 public 접근 제어자를 구현<br>
-</details>
-<details>
-  <summary>
-MVC 패턴    
-  </summary>
-  Model, View, Control로 이루어진 디자인 패턴<br>
-  장점 : 재사용성과 확장성<br>
-  단점 : 어플리케이션이 복잡해질 수록 모델과 뷰의 관계가 복잡<br>
-  <br>
-  모델 : 어플리 케이션의 데이터, 어플리케이션의 데이터 <br>
-  뷰 : 사용자의 인터페이스 요소, inputbox, checkbox, textarea <br>
-  컨트롤러 : 하나 이상의 모델과 하나이상의 뷰를 잇는 다리로, 모델이나 뷰의 변경 통지를 받으면 해당요소에 전달<br>
-  <br>
-  MVC 패턴의 예시 : React<br>
-  특성 : immutable - state는 setState를 통해 수정가능 하다  
-</details>
-<details>
-  <summary>
-MVP 패턴    
-  </summary>
-  Model, View, Presenter<br>
-  뷰와 프레젠터는 일대일 관계이기 때문에 MVC 패턴보다 [더 강한 결합]을 지닌 디자인 패턴
-</details>
-<details>
-  <summary>
-MVVM 패턴    
-  </summary>
-  Model, View, View Model<br>
-  뷰모델은, 뷰를 더 추상화한 계층이며, <br>
-  뷰와 뷰모델 사이의 양방향 데이터 바인딩을 지원하여 <br>
-  UI를 별도 수정 없이 재사용할 수 있고, 단위 테스팅하기 쉽다는 장점이 있다.<br>
-  예시 Vue, 함수를 사용하지 않고 양방향 바인딩 가능 <br>
-  데이터 바인딩 :  화면의 데이터와, 웹 브라우저 메모리 데이터를 일치시키는 방법으로, 뷰모델을 하면 뷰가 
-</details>
-# 프로그래밍 패러다임<br>
-: 프로그래밍의 관점을 갖게 해주는 역활을 하는 개발 방법론<br>
+# [Minimal Mistakes Jekyll theme](https://mmistakes.github.io/minimal-mistakes/)
 
-![image](https://user-images.githubusercontent.com/18400730/167601313-9a481369-f1a5-4695-83df-97eacdb65576.png)
-<br>
-선언형 프로그래밍 : 무엇을 풀어내는가에 집중하는 패러다임<br>
-선언형 프로그래밍은 [순수 함수]들을 블록처럼 쌓아 [재사용성]을 높인 프로그래밍 패러다임<br>
-순수 함수 : 출력이 입력에만 의존하는 것을 의미(다른 전역 변수가 출력에 영향을 주면 안된다)<br>
-<br>
-객체지향 프로그래밍 : 데이터를 객체로 취급, 설계에 많은 시간이 소요되며, <br>
-처리속도가 다른 프로그래밍 패러다임에 비해 상대적으로 느리다.<br>
-객체 지향 프로그래밍의 특징 : 추상화, 캡슐화, 상속성, <br>
-추상화 : 여러 특징중 일부분의 특징을 뽑아내서 간추려 내는 것을 말함<br>
-캡슐화 : 객체의 속성과 매서드를 묶고 일부를 외부에 감추는 것 <br>
-상속성 : 상위의 클래스를 하위 클래스가 이어 받음<br>
-다형성 : 하나의 메서드나 클래스가 다양한 방법으로 동작, 예시 : 오버로딩, 오버라이딩 <br>
-<br>
-오버로딩 : 같은 이름을 가진 매서드를 여러개 두는 것 (매서드의 매개분수를 여러개 넣어서 다양하게 적용할 수 있다)<br> 
-오버라이딩 : 상위 클래스로부터 받은 매서드를 하위클래스에서 재정의하는 것, 런타임 중에 발생하는 동적 다형성<br>
-<br>
-객체 지향 설계의 원칙 SOLID 원칙<br>
-단일 책임 원칙 : 모든 클래스는 각각 하나의 책임만 가져야 한다.<br>
-개방-폐쇄 원칙 : 기존의 코드는 잘 변경하지 않으면서도 확장은 쉽게 할 수 있어야 합니다.<br>
-리스코프 치환 원칙 : [정확성을 깨뜨리지 않으면서], 하위 타입의 인스턴스를 바꿀 수 있어야 한다 <br>
-인터페이스 분리 원칙 : 구체적인 여러개의 인터페이스를 만들어야 한다<br>
-의존 역전 원칙 : 상위 계층은 하위 계층의 변화에 대한 구현으로부터 독립해야 한다 <br>
-<br>
-절차형 프로그래밍 : 실행속도가 빠르지만, 모듈화하기가 어렵고, 유지 보수성이 떨어진다.<br>
-<br>
-뭐가 좋냐가 있는건아니라, 상황에 맞춰서, 패러다임을 조합하는 것이 가장 좋다. 머신 러닝 파이프라인과 거래 로직이 있다면, 머신 러닝 파이프라인은 절차지향형 패러다임, 거래 관련 로직은 함수형프로그래밍으로 하는 것이 좋다<br>
+[![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/mmistakes/minimal-mistakes/master/LICENSE)
+[![Jekyll](https://img.shields.io/badge/jekyll-%3E%3D%203.7-blue.svg)](https://jekyllrb.com/)
+[![Ruby gem](https://img.shields.io/gem/v/minimal-mistakes-jekyll.svg)](https://rubygems.org/gems/minimal-mistakes-jekyll)
+[![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mmistakes)
+[![Donate to this project using Buy Me A Coffee](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/mmistakes)
+
+Minimal Mistakes is a flexible two-column Jekyll theme, perfect for building personal sites, blogs, and portfolios. As the name implies, styling is purposely minimalistic to be enhanced and customized by you :smile:.
+
+:sparkles: See what's new in the [CHANGELOG](CHANGELOG.md).
+
+**If you enjoy this theme, please consider sponsoring:**
+
+[!["Buy Me A Coffee"](https://user-images.githubusercontent.com/1376749/120938564-50c59780-c6e1-11eb-814f-22a0399623c5.png)](https://www.buymeacoffee.com/mmistakes)
+ [![Support via PayPal](https://cdn.jsdelivr.net/gh/twolfson/paypal-github-button@1.0.0/dist/button.svg)](https://www.paypal.me/mmistakes)
+
+**Note:** The theme uses the [jekyll-include-cache](https://github.com/benbalter/jekyll-include-cache) plugin which will need to be installed in your `Gemfile` and must be retained in the `plugins` array of `_config.yml`. Otherwise you'll encounter `Unknown tag 'include_cached'` errors at build.
+
+[![Minimal Mistakes live preview][2]][1]
+
+[1]: https://mmistakes.github.io/minimal-mistakes/
+[2]: screenshot.png (live preview)
+
+![layout examples](screenshot-layouts.png)
+
+## Notable features
+
+- Bundled as a "theme gem" for easier installation/upgrading.
+- Compatible with GitHub Pages.
+- Support for Jekyll's built-in Sass/SCSS preprocessor.
+- Nine different skins (color variations).
+- Several responsive layout options (single, archive index, search, splash, and paginated home page).
+- Optimized for search engines with support for [Twitter Cards](https://dev.twitter.com/cards/overview) and [Open Graph](http://ogp.me/) data.
+- Optional [header images](https://mmistakes.github.io/minimal-mistakes/docs/layouts/#headers), [custom sidebars](https://mmistakes.github.io/minimal-mistakes/docs/layouts/#sidebars), [table of contents](https://mmistakes.github.io/minimal-mistakes/docs/helpers/#table-of-contents), [galleries](https://mmistakes.github.io/minimal-mistakes/docs/helpers/#gallery), related posts, [breadcrumb links](https://mmistakes.github.io/minimal-mistakes/docs/configuration/#breadcrumb-navigation-beta), [navigation lists](https://mmistakes.github.io/minimal-mistakes/docs/helpers/#navigation-list), and more.
+- Commenting support (powered by [Disqus](https://disqus.com/), [Facebook](https://developers.facebook.com/docs/plugins/comments), Google+, [Discourse](https://www.discourse.org/), static-based via [Staticman](https://staticman.net/), [utterances](https://utteranc.es/), and [giscus](https://giscus.app/)).
+- [Google Analytics](https://www.google.com/analytics/) support.
+- UI localized text in English (default), Arabic (عربي), Brazilian Portuguese (Português brasileiro), Catalan, Chinese, Danish, Dutch, Finnish, French (Français), German (Deutsch), Greek, Hebrew, Hindi (हिंदी), Hungarian, Indonesian, Irish (Gaeilge), Italian (Italiano), Japanese, Kiswahili, Korean, Malayalam, Myanmar (Burmese), Nepali (Nepalese), Norwegian (Norsk), Persian (فارسی), Polish, Punjabi (ਪੰਜਾਬੀ), Romanian, Russian, Slovak, Spanish (Español), Swedish, Thai, Turkish (Türkçe), and Vietnamese.
+
+## Skins (color variations)
+
+This theme comes in nine different skins (in addition to the default one).
+
+| `air` | `contrast` | `dark` |
+| --- | --- | --- |
+| [![air skin](https://mmistakes.github.io/minimal-mistakes/assets/images/air-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/air-skin-archive-large.png) | [![contrast skin](https://mmistakes.github.io/minimal-mistakes/assets/images/contrast-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/contrast-skin-archive-large.png) | [![dark skin](https://mmistakes.github.io/minimal-mistakes/assets/images/dark-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/dark-skin-archive-large.png) |
+
+| `dirt` | `mint` | `sunrise` |
+| --- | --- | --- |
+| [![dirt skin](https://mmistakes.github.io/minimal-mistakes/assets/images/dirt-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/dirt-skin-archive-large.png) | [![mint skin](https://mmistakes.github.io/minimal-mistakes/assets/images/mint-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/mint-skin-archive-large.png) | [![sunrise skin](https://mmistakes.github.io/minimal-mistakes/assets/images/sunrise-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/sunrise-skin-archive-large.png) |
+
+| `aqua` | `neon` | `plum` |
+| --- | --- | --- |
+| [![aqua skin](https://mmistakes.github.io/minimal-mistakes/assets/images/aqua-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/aqua-skin-archive-large.png) | [![neon skin](https://mmistakes.github.io/minimal-mistakes/assets/images/neon-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/neon-skin-archive-large.png) | [![plum skin](https://mmistakes.github.io/minimal-mistakes/assets/images/plum-skin-archive.png)](https://mmistakes.github.io/minimal-mistakes/assets/images/plum-skin-archive-large.png) |
+
+## Demo pages
+
+| Name                                        | Description                                           |
+| ------------------------------------------- | ----------------------------------------------------- |
+| [Post with Header Image][header-image-post] | A post with a large header image. |
+| [HTML Tags and Formatting Post][html-tags-post] | A variety of common markup showing how the theme styles them. |
+| [Syntax Highlighting Post][syntax-post] | Post displaying highlighted code. |
+| [Post with a Gallery][gallery-post] | A post showing several images wrapped in `<figure>` elements. |
+| [Sample Collection Page][sample-collection] | Single page from a collection. |
+| [Categories Archive][categories-archive] | Posts grouped by category. |
+| [Tags Archive][tags-archive] | Posts grouped by tag. |
+
+Additional sample posts are available under [posts archive][year-archive] on the demo site. Source files for these (and the entire demo site) can be found in [`/docs`](docs).
+
+[header-image-post]: https://mmistakes.github.io/minimal-mistakes/layout-header-image-text-readability/
+[gallery-post]: https://mmistakes.github.io/minimal-mistakes/post%20formats/post-gallery/
+[html-tags-post]: https://mmistakes.github.io/minimal-mistakes/markup/markup-html-tags-and-formatting/
+[syntax-post]: https://mmistakes.github.io/minimal-mistakes/markup-syntax-highlighting/
+[sample-collection]: https://mmistakes.github.io/minimal-mistakes/recipes/chocolate-chip-cookies/
+[categories-archive]: https://mmistakes.github.io/minimal-mistakes/categories/
+[tags-archive]: https://mmistakes.github.io/minimal-mistakes/tags/
+[year-archive]: https://mmistakes.github.io/minimal-mistakes/year-archive/
+
+## Installation
+
+There are three ways to install: as a [gem-based theme](https://jekyllrb.com/docs/themes/#understanding-gem-based-themes), as a [remote theme](https://blog.github.com/2017-11-29-use-any-theme-with-github-pages/) (GitHub Pages compatible), or forking/directly copying all of the theme files into your project.
+
+### Gem-based method
+
+With Gem-based themes, directories such as the `assets`, `_layouts`, `_includes`, and `_sass` are stored in the theme’s gem, hidden from your immediate view. Yet all of the necessary directories will be read and processed during Jekyll’s build process.
+
+This allows for easier installation and updating as you don't have to manage any of the theme files. To install:
+
+1. Add the following to your `Gemfile`:
+
+   ```ruby
+   gem "minimal-mistakes-jekyll"
+   ```
+
+2. Fetch and update bundled gems by running the following [Bundler](http://bundler.io/) command:
+
+   ```bash
+   bundle
+   ```
+
+3. Set the `theme` in your project's Jekyll `_config.yml` file:
+
+   ```yaml
+   theme: minimal-mistakes-jekyll
+   ```
+
+To update the theme run `bundle update`.
+
+### Remote theme method
+
+Remote themes are similar to Gem-based themes, but do not require `Gemfile` changes or whitelisting making them ideal for sites hosted with GitHub Pages.
+
+To install:
+
+1. Create/replace the contents of your `Gemfile` with the following:
+
+   ```ruby
+   source "https://rubygems.org"
+
+   gem "github-pages", group: :jekyll_plugins
+   gem "jekyll-include-cache", group: :jekyll_plugins
+   ```
+
+2. Add `jekyll-include-cache` to the `plugins` array of your `_config.yml`.
+
+3. Fetch and update bundled gems by running the following [Bundler](http://bundler.io/) command:
+
+   ```bash
+   bundle
+   ```
+
+4. Add `remote_theme: "mmistakes/minimal-mistakes@4.24.0"` to your `_config.yml` file. Remove any other `theme:` or `remote_theme:` entry.
+
+**Looking for an example?** Use the [Minimal Mistakes remote theme starter](https://github.com/mmistakes/mm-github-pages-starter/generate) for the quickest method of getting a GitHub Pages hosted site up and running. Generate a new repository from the starter, replace sample content with your own, and configure as needed.
+
+## Usage
+
+For detailed instructions on how to configure, customize, add/migrate content, and more read the [theme's documentation](https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/).
+
+---
+
+## Contributing
+
+Found a typo in the documentation or interested in [fixing a bug](https://github.com/mmistakes/minimal-mistakes/issues)? Then by all means [submit an issue](https://github.com/mmistakes/minimal-mistakes/issues/new) or [pull request](https://help.github.com/articles/using-pull-requests/). If this is your first pull request, it may be helpful to read up on the [GitHub Flow](https://guides.github.com/introduction/flow/) first.
+
+For help with using the theme or general Jekyll support questions, please use the [Jekyll Talk forums](https://talk.jekyllrb.com/).
+
+### Pull Requests
+
+When submitting a pull request:
+
+1. Clone the repo.
+2. Create a branch off of `master` and give it a meaningful name (e.g. `my-awesome-new-feature`).
+3. Open a pull request on GitHub and describe the feature or fix.
+
+Theme documentation and demo pages can be found in the [`/docs`](docs) if submitting improvements, typo corrections, etc.
+
+## Development
+
+To set up your environment to develop this theme, run `bundle install`.
+
+To test the theme, run `bundle exec rake preview` and open your browser at `http://localhost:4000/test/`. This starts a Jekyll server using content in the `test/` directory. As modifications are made to the theme and test site, it will regenerate and you should see the changes in the browser after a refresh.
+
+---
+
+## Credits
+
+### Creator
+
+**Michael Rose**
+
+- <https://mademistakes.com>
+- <https://twitter.com/mmistakes>
+- <https://github.com/mmistakes>
+
+### Icons + Demo Images:
+
+- [The Noun Project](https://thenounproject.com) -- Garrett Knoll, Arthur Shlain, and [tracy tam](https://thenounproject.com/tracytam)
+- [Font Awesome](http://fontawesome.io/)
+- [Unsplash](https://unsplash.com/)
+
+### Other:
+
+- [Jekyll](http://jekyllrb.com/)
+- [jQuery](http://jquery.com/)
+- [Susy](http://susy.oddbird.net/)
+- [Breakpoint](http://breakpoint-sass.com/)
+- [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/)
+- [FitVids.JS](http://fitvidsjs.com/)
+- [GreedyNav.js](https://github.com/lukejacksonn/GreedyNav)
+- [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
+- [Gumshoe](https://github.com/cferdinandi/gumshoe)
+- [jQuery throttle / debounce](http://benalman.com/projects/jquery-throttle-debounce-plugin/)
+- [Lunr](http://lunrjs.com)
+
+---
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2013-2020 Michael Rose and contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Minimal Mistakes incorporates icons from [The Noun Project](https://thenounproject.com/) 
+creators Garrett Knoll, Arthur Shlain, and tracy tam.
+Icons are distributed under Creative Commons Attribution 3.0 United States (CC BY 3.0 US).
+
+Minimal Mistakes incorporates [Font Awesome](http://fontawesome.io/),
+Copyright (c) 2017 Dave Gandy.
+Font Awesome is distributed under the terms of the [SIL OFL 1.1](http://scripts.sil.org/OFL) 
+and [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates photographs from [Unsplash](https://unsplash.com).
+
+Minimal Mistakes incorporates [Susy](http://susy.oddbird.net/),
+Copyright (c) 2017, Miriam Eric Suzanne.
+Susy is distributed under the terms of the [BSD 3-clause "New" or "Revised" License](https://opensource.org/licenses/BSD-3-Clause).
+
+Minimal Mistakes incorporates [Breakpoint](http://breakpoint-sass.com/).
+Breakpoint is distributed under the terms of the [MIT/GPL Licenses](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [FitVids.js](https://github.com/davatron5000/FitVids.js/),
+Copyright (c) 2013 Dave Rubert and Chris Coyier.
+FitVids is distributed under the terms of the [WTFPL License](http://www.wtfpl.net/).
+
+Minimal Mistakes incorporates [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/),
+Copyright (c) 2014-2016 Dmitry Semenov, http://dimsemenov.com.
+Magnific Popup is distributed under the terms of the MIT License.
+
+Minimal Mistakes incorporates [Smooth Scroll](http://github.com/cferdinandi/smooth-scroll),
+Copyright (c) 2019 Chris Ferdinandi.
+Smooth Scroll is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [Gumshoejs](http://github.com/cferdinandi/gumshoe),
+Copyright (c) 2019 Chris Ferdinandi.
+Gumshoejs is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [jQuery throttle / debounce](http://benalman.com/projects/jquery-throttle-debounce-plugin/),
+Copyright (c) 2010 "Cowboy" Ben Alman.
+jQuery throttle / debounce is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [GreedyNav.js](https://github.com/lukejacksonn/GreedyNav),
+Copyright (c) 2015 Luke Jackson.
+GreedyNav.js is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [Jekyll Group-By-Array](https://github.com/mushishi78/jekyll-group-by-array),
+Copyright (c) 2015 Max White <mushishi78@gmail.com>.
+Jekyll Group-By-Array is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [@allejo's Pure Liquid Jekyll Table of Contents](https://allejo.io/blog/a-jekyll-toc-in-liquid-only/),
+Copyright (c) 2017 Vladimir Jimenez.
+Pure Liquid Jekyll Table of Contents is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Minimal Mistakes incorporates [Lunr](http://lunrjs.com),
+Copyright (c) 2018 Oliver Nightingale.
+Lunr is distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
